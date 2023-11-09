@@ -7,22 +7,23 @@
 
 class InputManager
 {
-private:
 
 	
 
 	
 
 public:
+	int xMouseCords = 0;
+	int yMouseCords = 0;
 	std::map < std::string, SDL_Scancode> actionMapKeyboard;
 	std::map <std::string, int> actionMapMouse; //tuka...abe da ne kazvam napravo, po dobre da si mulcha
 	
 	
-	auto mapControlsKeyBoard(const char* inputKey, std::string nameOfAction) {
+	std::map<std::string, SDL_Scancode> mapControlsKeyBoard(const char* inputKey, std::string nameOfAction) {
 
 		
-		actionMapKeyboard[nameOfAction] = SDL_GetScancodeFromName(inputKey);
-		return actionMapKeyboard;
+		actionMapKeyboard[nameOfAction] = SDL_GetScancodeFromName(inputKey); //get scancode from name, assign it to action
+		return actionMapKeyboard; //return map
 
 		
 		
@@ -32,7 +33,7 @@ public:
 
 	}
 
-	auto mapControlsMouse(std::string name, std::string button) {
+	std::map<std::string, int> mapControlsMouse(std::string name, std::string button) {
 	
 
 		std::transform(button.begin(), button.end(), button.begin(), ::toupper);
@@ -81,7 +82,25 @@ public:
 
 	}
 	
+	
+	int getXMouseCoordinates(int xMouse) {
+		SDL_GetGlobalMouseState(&xMouse, NULL);
+		return xMouse;
+		
 
+
+
+
+	}
+	int getYMouseCoordinates(int yMouse) {
+		SDL_GetGlobalMouseState(NULL, &yMouse);
+		return yMouse;
+
+
+
+
+
+	}
 
 	
 

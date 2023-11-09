@@ -59,14 +59,14 @@ int main(int argc, char* argv[])
 	
 	improveRenderer(mainWindow, mainRenderer);
 
-	std::map <std::string, int> mouseButtons;
-	std::map <std::string, SDL_Scancode> keyboardButtons;
+	
+	
 
 	inputManager.mapControlsMouse("left", "left");
 	inputManager.mapControlsKeyBoard("a", "left");
 
-	mouseButtons = inputManager.actionMapMouse;
-	keyboardButtons = inputManager.actionMapKeyboard;
+	
+	
 	
 
 
@@ -76,7 +76,10 @@ int main(int argc, char* argv[])
 	SDL_Cursor* cursor = SDL_CreateColorCursor(surface, 0, 0);
 	SDL_SetCursor(cursor);
 	SDL_Texture* NeuromancerBackground = textLoader.CreateTexture("Neuromancer.bmp", mainRenderer);
-	SDL_Texture* Gugug = textLoader.CreateTexture("gufguy.bmp", mainRenderer);
+	//SDL_Texture* Gugug = textLoader.CreateTexture("gufguy.bmp", mainRenderer);
+
+	SDL_FreeSurface(surface);
+	
 
 
 	//make a 3d rect vs 2019 make viking anim
@@ -86,6 +89,7 @@ int main(int argc, char* argv[])
 	int currentX = 5;
 	int currentY = 5;
 	int animStateY = 0;
+
 	
 
 
@@ -117,7 +121,7 @@ int main(int argc, char* argv[])
 					break;
 
 				case SDL_KEYDOWN:
-					if(inputManager.keyboardButtonPressed(Event, keyboardButtons["left"])){
+					if(inputManager.keyboardButtonPressed(Event, inputManager.actionMapKeyboard["left"])) {
 
 						SDL_Quit();
 					
@@ -128,14 +132,18 @@ int main(int argc, char* argv[])
 					break;
 
 				case SDL_MOUSEBUTTONDOWN:
-					if (inputManager.mouseButtonPressed(Event.button, mouseButtons["left"])) {
+					if (inputManager.mouseButtonPressed(Event.button, inputManager.actionMapMouse["left"])) {
 						SDL_Quit();
 					}
 					break;
 
 				case SDL_MOUSEMOTION:
-					SDL_GetGlobalMouseState(&xMouse, &yMouse);
+					xMouse = inputManager.getXMouseCoordinates(xMouse);
+					yMouse = inputManager.getYMouseCoordinates(yMouse);
+					std::cout << xMouse << ":" << yMouse << std::endl;
 					break;
+					
+					
 
 
 				default:
@@ -165,7 +173,7 @@ int main(int argc, char* argv[])
 
 
 			SDL_RenderCopy(mainRenderer, NeuromancerBackground, NULL, NULL);
-			SDL_RenderCopy(mainRenderer, Gugug, NULL, NULL);
+			//SDL_RenderCopy(mainRenderer, Gugug, NULL, NULL);
 
 			
 			SDL_RenderPresent(mainRenderer);
