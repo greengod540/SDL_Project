@@ -1,0 +1,4 @@
+Image_Name img\\skeleton_idle.bmp
+dst_Rect: 100 100 200 200
+Skeleton_srcRect: 0 0 48 30
+Img_Values: 864 32 1 18
